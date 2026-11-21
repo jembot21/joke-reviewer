@@ -1,19 +1,22 @@
-"""Write the competition joke exactly, without extra text or a trailing newline.
-
-The output is the submitted entry, so every character must match the joke.
-"""
+"""Create the make.fun entry as an exact sequence of UTF-8 bytes."""
 
 from pathlib import Path
 
 
-JOKE = "I asked my coding agent for a one-line fix; it returned a framework, a migration guide, and opinions."
+def joke_bytes() -> bytes:
+    """Build the single-line submission without a line terminator."""
+    text = (
+        "My agent refactored my code while I slept. "
+        "I woke up to cleaner code, better tests, and a performance review of me."
+    )
+    return text.encode("utf-8")
 
 
-def main() -> None:
-    entry_path = Path("/output/entry.txt")
-    entry_path.parent.mkdir(parents=True, exist_ok=True)
-    entry_path.write_text(JOKE, encoding="utf-8")
+def write_entry(destination: Path) -> None:
+    # Binary writing preserves the submission exactly as assembled above.
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_bytes(joke_bytes())
 
 
 if __name__ == "__main__":
-    main()
+    write_entry(Path("/output/entry.txt"))
